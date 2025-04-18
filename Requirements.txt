@@ -1,0 +1,42 @@
+> pip install crispy-bootstrap5
+> pip install crispy-forms
+> pip install django psycopg2-binary
+
+Add these in INSTALLED APPS
+
+'usm.apps.UsmCongig',
+'crispy_forms',
+'crispy_bootstrap5',
+
+py shell commands for creating group and permissions
+
+from django.contrib.auth.model import Group, Permission, User
+from django.contrib.contenttypes.model import ContentType
+
+#Create Moderator group as mod
+mod, created = Group.get_or_create(name = 'mode')
+mod
+
+created
+
+from usm.models import Post
+ct = ContentType.objects.get_for_model(model = Post)
+ct
+
+perms = Permission.objects.filter(content_type = ct)
+perms
+perms.all()
+
+mod.permissions.add(*perms)
+mod
+mod.permissions
+
+user = User.objects.filter(username = "name")
+user
+
+mod.user_set.add(user.first())
+quit()
+
+#Groups ------> Default users, Moderators, Admin 
+
+#to add every user created to the default group > check Apps.py
